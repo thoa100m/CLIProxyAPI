@@ -474,6 +474,10 @@ func (s *Server) setupRoutes() {
 
 	// Root endpoint
 	s.engine.GET("/", func(c *gin.Context) {
+		if strings.Contains(c.GetHeader("Accept"), "text/html") {
+			c.Redirect(http.StatusFound, "/management.html")
+			return
+		}
 		c.JSON(http.StatusOK, gin.H{
 			"message": "CLI Proxy API Server",
 			"endpoints": []string{
