@@ -1,0 +1,31 @@
+networks:
+  dokploy-network:
+    external: true
+
+services:
+  cli-proxy-api:
+    image: ghcr.io/thoa100m/cliproxyapi:latest
+    container_name: cli-proxy-api
+    restart: unless-stopped
+    pull_policy: always
+    networks:
+      - dokploy-network
+    ports:
+      - "8317:8317"
+    expose:
+      - 8317
+    environment:
+      TZ: Asia/Shanghai
+      # Optional: lets private/forked management-panel releases be fetched if needed.
+      # GITSTORE_GIT_URL: https://github.com/thoa100m/Cli-Proxy-API-Management-Center
+      # GITSTORE_GIT_TOKEN: ${GITSTORE_GIT_TOKEN}
+    volumes:
+      - ../files/volumes/config.yaml:/CLIProxyAPI/config.yaml
+      - cli-proxy-auth:/root/.cli-proxy-api
+      - cli-proxy-logs:/CLIProxyAPI/logs
+      - cli-proxy-static:/root/.cli-proxy-api/static
+
+volumes:
+  cli-proxy-auth:
+  cli-proxy-logs:
+  cli-proxy-static:
