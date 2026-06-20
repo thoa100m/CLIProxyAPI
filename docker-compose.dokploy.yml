@@ -5,13 +5,10 @@ networks:
 services:
   cli-proxy-api:
     image: ghcr.io/thoa100m/cliproxyapi:latest
-    container_name: cli-proxy-api
     restart: unless-stopped
     pull_policy: always
     networks:
       - dokploy-network
-    ports:
-      - "8317:8317"
     expose:
       - 8317
     environment:
